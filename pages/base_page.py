@@ -4,6 +4,10 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 class BasePage:
+    @allure.step("Открыть страницу по URL")
+    def open_url(self, url):
+        self.driver.get(url)
+
     def __init__(self, driver):
         self.driver = driver
         self.wait = WebDriverWait(driver, 10)
@@ -30,4 +34,8 @@ class BasePage:
 
     def get_text(self, locator):
         return self.find_element(locator).text
+
+    def get_current_url(self):
+        return self.driver.current_url
+
 

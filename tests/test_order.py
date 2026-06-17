@@ -3,19 +3,21 @@ import allure
 from pages.order_page import OrderPage
 from pages.main_page import MainPage
 from pages.order_rent_page import OrderRentPage
+from urls import Urls
+from data import OrderData
+
 
 @pytest.mark.parametrize(
-    "name, last_name, address, metro_station, phone, scooter_color, rent_time",
+    "name, last_name, address, metro_station, phone, rent_time, scooter_color",
     [
-        # Юзер 1: Иван Иванов (Черкизовская, чёрный самокат, сутки)
-        ("Иван", "Иванов", "ул. Ленина, д. 10", "Черкизовская", "89991112233", "чёрный", "сутки"),
-        # Юзер 2: Петр Петров (Сокольники, серый самокат, двое суток)
-        ("Петр", "Петров", "проспект Мира, д. 25", "Сокольники", "89154445566", "серая", "двое суток")
-    ])
+        OrderData.USER_1,
+        OrderData.USER_2
+    ]
+)
 
 @allure.title("Сквозной процесс оформления заказа самоката")
 @allure.description("Проверяем полный цикл заказа для двух разных пользователей станциями метро, сроками аренды и цветами самоката.")
-def test_order_page(driver, name, last_name, address, metro_station, phone, scooter_color, rent_time):
+def test_order_page(driver, name, last_name, address, metro_station, phone, rent_time, scooter_color):
     main_page = MainPage(driver)
     order_page = OrderPage(driver)
     order_rent_page = OrderRentPage(driver)
@@ -47,7 +49,7 @@ def test_bottom_order_button_opens_form(driver):
     main_page.open_main_page()
     main_page.accept_cookies()
     main_page.click_order_button()
-    assert driver.current_url == order_page.ORDER_URL
+    assert order_page.get_current_url() == Urls.ORDER_URL
 
 
 

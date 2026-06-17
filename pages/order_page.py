@@ -2,14 +2,14 @@ import allure
 from pages.base_page import BasePage
 from locators import OrderPageLocators as OPL
 from selenium.webdriver.common.by import By
+from urls import Urls
 
 
 class OrderPage(BasePage):
-    ORDER_URL = "https://qa-scooter.praktikum-services.ru/order"
 
     @allure.step("Открыть страницу оформления заказа.")
     def open_order_page(self):
-        self.driver.get(self.ORDER_URL)
+        self.open_url(Urls.ORDER_URL)
 
     @allure.step("Ввод имени: {name}")
     def input_name(self, name):
@@ -27,7 +27,8 @@ class OrderPage(BasePage):
     def input_station(self, metro_station):
         self.click_element(OPL.METRO_INPUT)
         self.send_keys(OPL.METRO_INPUT, metro_station)
-        target_locator = (By.XPATH, f"//div[text()='{metro_station}']")
+        raw_xpath = f"{OPL.METRO_STATION_OPTION[1]}{metro_station}']"
+        target_locator = (By.XPATH, raw_xpath)
         self.click_element(target_locator)
 
     @allure.step("Ввод номера телефона: {phone}")

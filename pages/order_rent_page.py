@@ -15,12 +15,14 @@ class OrderRentPage(BasePage):
     @allure.step("Выбор срока аренды: {rent_time}")
     def choose_rent_time(self, rent_time):
         self.click_element(ORPL.RENTAL_PERIOD)
-        target_locator = (By.XPATH, f"//div[@class='Dropdown-option' and contains(text(), '{rent_time}')]")
+        raw_xpath = ORPL.RENTAL_OPTION.replace('{rent_time}', rent_time)
+        target_locator = (By.XPATH, raw_xpath)
         self.click_element(target_locator)
 
     @allure.step("Выбор цвета самоката: {scooter_color}")
     def select_scooter_color(self, scooter_color):
-        target_locator = (By.XPATH, f"//label[contains(text(), '{scooter_color}')]")
+        raw_xpath = ORPL.SCOOTER_COLOR_OPTION.replace('{scooter_color}', scooter_color)
+        target_locator = (By.XPATH, raw_xpath)
         self.click_element(target_locator)
 
     @allure.step("Ввод комментария для курьера")
